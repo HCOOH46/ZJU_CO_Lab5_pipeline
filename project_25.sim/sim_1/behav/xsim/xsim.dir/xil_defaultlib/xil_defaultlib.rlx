@@ -1,0 +1,17 @@
+0.7
+2020.2
+Oct 13 2023
+20:47:58
+D:/Desktop/Lab04 单周期CPU（学生版）/Lab04 单周期CPU（学生版）/Lab04-0 CPU核集成设计（学生版）/OExp04-IP2CPU/IP/DataPath.v,1709607226,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/SCPU.v,,DataPath,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.gen/sources_1/ip/RAM_B/sim/RAM_B.v,1730739870,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/imports/new/ALU.v,,RAM_B,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.gen/sources_1/ip/ROM_B/sim/ROM_B.v,1730812136,verilog,,D:/code_of_verilog/project_25/project_25.gen/sources_1/ip/RAM_B/sim/RAM_B.v,,ROM_B,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.sim/sim_1/behav/xsim/glbl.v,1697210495,verilog,,,,glbl,,,,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sim_1/new/SCPU_mem.v,1730740024,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/regfile.v,,testbench,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sim_1/new/SCPU_tb.v,1730804103,verilog,,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/imports/Downloads/Lab4_header.vh,testbench_tb,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sources_1/imports/Downloads/Lab4_header.vh,1730810900,verilog,,D:/code_of_verilog/project_25/project_25.gen/sources_1/ip/ROM_B/sim/ROM_B.v,,,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sources_1/imports/new/ALU.v,1726653591,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/DataPath.v,,ALU,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/DataPath.v,1730822964,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/ImmGen.v,D:/code_of_verilog/project_25/project_25.srcs/sources_1/imports/Downloads/Lab4_header.vh,Data_path;reg32,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/ImmGen.v,1730821995,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/SCPU.v,,ImmGen,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/SCPU.v,1730823025,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/SCPU_ctrl.v,D:/code_of_verilog/project_25/project_25.srcs/sources_1/imports/Downloads/Lab4_header.vh,SCPU,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/SCPU_ctrl.v,1730825723,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/regfile.v,,SCPU_ctrl,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,
+D:/code_of_verilog/project_25/project_25.srcs/sources_1/new/regfile.v,1730683959,verilog,,D:/code_of_verilog/project_25/project_25.srcs/sim_1/new/SCPU_tb.v,D:/code_of_verilog/project_25/project_25.srcs/sources_1/imports/Downloads/Lab4_header.vh,regs,,,../../../../project_25.srcs/sources_1/imports/Downloads,,,,,

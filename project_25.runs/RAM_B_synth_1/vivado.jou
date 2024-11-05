@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Tue Nov  5 01:04:34 2024
+# Process ID: 20152
+# Current directory: D:/code_of_verilog/project_25/project_25.runs/RAM_B_synth_1
+# Command line: vivado.exe -log RAM_B.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source RAM_B.tcl
+# Log file: D:/code_of_verilog/project_25/project_25.runs/RAM_B_synth_1/RAM_B.vds
+# Journal file: D:/code_of_verilog/project_25/project_25.runs/RAM_B_synth_1\vivado.jou
+# Running On: LAPTOP-4SO0BGE2, OS: Windows, CPU Frequency: 3110 MHz, CPU Physical cores: 4, Host memory: 16952 MB
+#-----------------------------------------------------------
+source RAM_B.tcl -notrace
