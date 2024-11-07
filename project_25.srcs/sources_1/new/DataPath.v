@@ -51,19 +51,14 @@ module Data_path(
    
     wire [31:0] Imm_out;
     assign immediate = Imm_out; 
-    /*wire resB = Branch & op2;
+    wire resB = (Branch & op2) | ((~op2) & BranchN);
     wire [31:0] B4_addr = resB ? (PC_out + Imm_out) : (PC_out + 4);
-    wire [31:0] BJ4_addr = Jump ? (PC_out + Imm_out) : B4_addr;*/
-
-    wire [31:0] PC4 = PC_out + 4;
-    wire [31:0] IPP = Imm_out + PC_out;
-    wire [31:0] PC4_IPP = ((Branch & op2) | ((~op2) & BranchN)) ? IPP : PC4;
-    wire [31:0] PC4_IPP_ALU = Jump[1] ? (Jump[0] ? PC4_IPP : ALU_out) : (Jump[0] ? IPP : PC4_IPP);
+    wire [31:0] BJ4_addr = Jump[1] ? (Jump[0] ? B4_addr : ALU_out) : (Jump[0] ? (PC_out + Imm_out) : B4_addr);
 
     reg32 PC(
         .clk(clk),
         .rst(rst),
-        .data_in(PC4_IPP_ALU),
+        .data_in(BJ4_addr),
         .data_out(PC_out)
     );
 
@@ -80,7 +75,7 @@ module Data_path(
         .Rs1_addr(inst_field[19:15]),
         .Rs2_addr(inst_field[24:20]),
         .Wt_addr(inst_field[11:7]),
-        .Wt_data(MemtoReg[1] ? (MemtoReg[0] ? Imm_out : PC4) : (MemtoReg[0] ? Data_in : ALU_res)),
+        .Wt_data(MemtoReg[1] ? (MemtoReg[0] ? Imm_out : (PC_out + 4)) : (MemtoReg[0] ? Data_in : ALU_res)),
         .Rs1_data(Rs1_data),
         `RegFile_Regs_Arguments
         .Rs2_data(Rs2_data)
