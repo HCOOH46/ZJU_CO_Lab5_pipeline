@@ -4,7 +4,7 @@ module testbench_tb();
 
     reg clk;
     reg rst;
-    //`RegFile_Regs_Declaration
+    `RegFile_Regs_Declaration
     /* SCPU 中接出 */
     wire [31:0] Addr_out;
     wire [31:0] Data_out ;       
@@ -17,7 +17,7 @@ module testbench_tb();
     wire [31:0] spo;
 
 
-    //wire [31:0] immediate;
+    wire [31:0] immediate;
 
 
     SCPU u0(
@@ -30,8 +30,8 @@ module testbench_tb();
         .Data_out(Data_out),
         .CPU_MIO(CPU_MIO),
         .MemRW(MemRW),
-        //`RegFile_Regs_Arguments
-        //.immediate(immediate),
+        `RegFile_Regs_Arguments
+        .immediate(immediate),
         .PC_out(PC_out)
         
     );

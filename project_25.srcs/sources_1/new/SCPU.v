@@ -16,9 +16,10 @@ module SCPU(
     // 寄存器组值的读出
     );
 
-    wire [1:0] ImmSel;
+    wire [1:0] Jump;
+    wire [2:0] ImmSel;
     wire [1:0] MemtoReg;
-    wire [2:0] ALU_Control;
+    wire [3:0] ALU_Control;
     SCPU_ctrl ctrl(
         .OPcode(inst_in[6:2]),
         .Fun3(inst_in[14:12]),
@@ -29,6 +30,7 @@ module SCPU(
         .MemtoReg(MemtoReg),
         .Jump(Jump),
         .Branch(Branch),
+        .BranchN(BranchN),
         .RegWrite(RegWrite),
         .MemRW(MemRW),
         .ALU_Control(ALU_Control),
@@ -43,6 +45,7 @@ module SCPU(
         .MemtoReg(MemtoReg),
         .Jump(Jump),
         .Branch(Branch),
+        .BranchN(BranchN),
         .RegWrite(RegWrite),
         .Data_in(Data_in),
         .ALU_Control(ALU_Control),

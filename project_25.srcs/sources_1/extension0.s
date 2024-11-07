@@ -1,9 +1,10 @@
 # fibonacci
-and a0, zero, zero
-addi a0, zero, 7
+lui a0, 7
+addi t0, zero, fib
+srai a0, a0, 12
 addi sp, zero, 1024
 jal ra, fib
-jal zero, end
+bne zero, a0, end
 
 
 fib:
@@ -26,5 +27,6 @@ fib:
     addi sp, sp, 16 # pop two words
 done:
     jalr zero, ra, 0
-    
 end:
+    lui t0, 114
+    add zero, zero, zero

@@ -19,16 +19,17 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+`include "D:\\code_of_verilog\\project_25\\project_25.srcs\\sources_1\\imports\\Downloads\\Lab4_header.vh"
 
 module ALU(
     input [31:0] A,
-    input [2:0] ALU_operation,
+    input [3:0] ALU_operation,
     input  [31:0] B,
     output reg [31:0] res,
     output zero
     );
 
-    reg [2:0] ALU;
+    reg [3:0] ALU;
 
     reg [32:0] add;
 
@@ -36,14 +37,16 @@ module ALU(
         ALU <= ALU_operation;
         add <= A + B;
         case (ALU)
-            3'b000: res <= A&B; 
-            3'b001: res <= A|B;
-            3'b010: res <= add;
-            3'b110: res <= A - B;
-            3'b111: res <= A < B ? 1 : 0;
-            3'b100: res <= ~(A|B);
-            3'b101: res <= A >> B[4:0]; //shift right logical
-            3'b011: res <= A^B;
+            `ALU_OP_AND: res <= A&B; 
+            `ALU_OP_OR: res <= A|B;
+            `ALU_OP_ADD: res <= add;
+            `ALU_OP_SUB: res <= A - B;
+            `ALU_OP_SLT: res <= A < B ? 1 : 0;
+            `ALU_OP_SLTU: res <= $unsigned(A) < $unsigned(B) ? 1 : 0;
+            `ALU_OP_SRL: res <= A >> B[4:0]; //shift right logical
+            `ALU_OP_SLL: res <= A << B[4:0]; //shift left logical
+            `ALU_OP_XOR: res <= A^B;
+            `ALU_OP_SRA: res <= A >>> B; //sra
         endcase
     end
 

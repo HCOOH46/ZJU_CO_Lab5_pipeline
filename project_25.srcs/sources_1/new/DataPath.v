@@ -1,6 +1,6 @@
 `include "D:\\code_of_verilog\\project_25\\project_25.srcs\\sources_1\\imports\\Downloads\\Lab4_header.vh"
 
-module reg32(
+module reg32( // PC寄存器
     input clk,
     input rst,
     input [31:0] data_in,
@@ -22,10 +22,11 @@ module Data_path(
     input[31:0]inst_field,
     input ALUSrc_B,
     input [1:0]MemtoReg,
-    input Jump,
+    input [1:0] Jump,
     input Branch,
     input RegWrite,
     input[31:0]Data_in,
+    input BranchN,
  //寄存器时钟
 //寄存器复位
 //指令数据域[31:7]
@@ -35,8 +36,8 @@ module Data_path(
 //Beq指令
 //寄存器写信号
 //存储器输入
-    input[2:0]ALU_Control, //ALU操作控制
-    input[1:0]ImmSel,
+    input[3:0]ALU_Control, //ALU操作控制
+    input[2:0]ImmSel,
     //ImmGen操作控制
     output[31:0]ALU_out,
     output[31:0]Data_out,
@@ -47,16 +48,22 @@ module Data_path(
  ); 
 
     wire op2;
-    wire resB = Branch & op2;
+   
     wire [31:0] Imm_out;
-    assign immediate = Imm_out;
+    assign immediate = Imm_out; 
+    /*wire resB = Branch & op2;
     wire [31:0] B4_addr = resB ? (PC_out + Imm_out) : (PC_out + 4);
-    wire [31:0] BJ4_addr = Jump ? (PC_out + Imm_out) : B4_addr;
+    wire [31:0] BJ4_addr = Jump ? (PC_out + Imm_out) : B4_addr;*/
+
+    wire PC4 = PC_out + 4;
+    wire IPP = Imm_out + PC_out;
+    wire PC4_IPP = ((Branch & op2) | ((~op2) & BranchN)) ? IPP : PC4;
+    wire PC4_IPP_ALU = Jump[1] ? (Jump[0] ? PC4_IPP : ALU_out) : (Jump[0] ? IPP : PC4_IPP);
 
     reg32 PC(
         .clk(clk),
         .rst(rst),
-        .data_in(BJ4_addr),
+        .data_in(PC4_IPP_ALU),
         .data_out(PC_out)
     );
 
@@ -73,7 +80,7 @@ module Data_path(
         .Rs1_addr(inst_field[19:15]),
         .Rs2_addr(inst_field[24:20]),
         .Wt_addr(inst_field[11:7]),
-        .Wt_data(MemtoReg[1] ? (PC_out + 4) : (MemtoReg[0] ? Data_in : ALU_res)),
+        .Wt_data(MemtoReg[1] ? (MemtoReg[0] ? Imm_out : PC4) : (MemtoReg[0] ? Data_in : ALU_res)),
         .Rs1_data(Rs1_data),
         `RegFile_Regs_Arguments
         .Rs2_data(Rs2_data)

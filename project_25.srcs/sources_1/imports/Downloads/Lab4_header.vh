@@ -8,16 +8,16 @@
 /* ALU Operation(Using in Lab1) */
 `define ALU_OP_WIDTH  4
 
-`define ALU_OP_ADD      `ALU_OP_WIDTH'd0
-`define ALU_OP_SUB      `ALU_OP_WIDTH'd1
-`define ALU_OP_SLL      `ALU_OP_WIDTH'd2
-`define ALU_OP_SLT      `ALU_OP_WIDTH'd3
-`define ALU_OP_SLTU     `ALU_OP_WIDTH'd4
-`define ALU_OP_XOR      `ALU_OP_WIDTH'd5
-`define ALU_OP_SRL      `ALU_OP_WIDTH'd6
-`define ALU_OP_SRA      `ALU_OP_WIDTH'd7
-`define ALU_OP_OR       `ALU_OP_WIDTH'd8
-`define ALU_OP_AND      `ALU_OP_WIDTH'd9
+`define ALU_OP_ADD      `ALU_OP_WIDTH'b0010
+`define ALU_OP_SUB      `ALU_OP_WIDTH'b0110
+`define ALU_OP_SLL      `ALU_OP_WIDTH'b1110
+`define ALU_OP_SLT      `ALU_OP_WIDTH'b0111
+`define ALU_OP_SLTU     `ALU_OP_WIDTH'b1001
+`define ALU_OP_XOR      `ALU_OP_WIDTH'b1100
+`define ALU_OP_SRL      `ALU_OP_WIDTH'b1101
+`define ALU_OP_SRA      `ALU_OP_WIDTH'b1111
+`define ALU_OP_OR       `ALU_OP_WIDTH'b0001
+`define ALU_OP_AND      `ALU_OP_WIDTH'b0000
 
 /*-----------------------------------*/
 
@@ -72,12 +72,13 @@
 
 /* ImmSel signals */
 // NOTE: You may add terms in Lab4-3 to implement more inst.
-`define IMM_SEL_WIDTH 2
+`define IMM_SEL_WIDTH 3
 
-`define IMM_SEL_I   `IMM_SEL_WIDTH'd0
-`define IMM_SEL_S   `IMM_SEL_WIDTH'd1
-`define IMM_SEL_B   `IMM_SEL_WIDTH'd2
-`define IMM_SEL_J   `IMM_SEL_WIDTH'd3
+`define IMM_SEL_I   `IMM_SEL_WIDTH'b001
+`define IMM_SEL_S   `IMM_SEL_WIDTH'b010
+`define IMM_SEL_B   `IMM_SEL_WIDTH'b011
+`define IMM_SEL_J   `IMM_SEL_WIDTH'b100
+`define IMM_SEL_U   `IMM_SEL_WIDTH'b000
 /*-----------------------------------*/
 
 /* Mem2Reg signals */
