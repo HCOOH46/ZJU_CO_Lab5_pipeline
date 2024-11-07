@@ -8,7 +8,7 @@ module SCPU_ctrl(
   output reg [2:0]  ImmSel,
   output reg        ALUSrc_B,
   output reg [1:0]  MemtoReg,
-  output reg        Jump,
+  output reg [1:0]  Jump,
   output reg        Branch,
   output reg        BranchN,
   output reg        RegWrite,
@@ -27,7 +27,7 @@ always @(*) begin
             RegWrite <= 1;
             MemtoReg <= 2'b0;
             MemRW <= 0;
-            ImmSel <= 3'b000;
+            ImmSel <= `IMM_SEL_I;
             case(Fun3) 
                 3'b000: begin
                     case(Fun7)

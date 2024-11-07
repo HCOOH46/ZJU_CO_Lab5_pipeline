@@ -1,3 +1,4 @@
+`include "D:\\code_of_verilog\\project_25\\project_25.srcs\\sources_1\\imports\\Downloads\\Lab4_header.vh"
 module ImmGen(
   input [2:0]   ImmSel,
   input [31:0]  inst_field,
@@ -6,11 +7,11 @@ module ImmGen(
 
 always @(*) begin
     case (ImmSel)
-        3'b010: Imm_out = {{20{inst_field[31]}}, inst_field[31:25], inst_field[11:7]}; //S
-        3'b001: Imm_out = {{20{inst_field[31]}}, inst_field[31:20]}; //I
-        3'b011: Imm_out = {{19{inst_field[31]}}, inst_field[31], inst_field[7], inst_field[30:25], inst_field[11:8], 1'b0}; //B, always even
-        3'b100: Imm_out = {{11{inst_field[31]}}, inst_field[31], inst_field[19:12], inst_field[20], inst_field[30:21], 1'b0}; // J
-        3'b000: Imm_out = {inst_field[31:12], 12'b0}; // U
+        `IMM_SEL_S: Imm_out = {{20{inst_field[31]}}, inst_field[31:25], inst_field[11:7]}; //S
+        `IMM_SEL_I: Imm_out = {{20{inst_field[31]}}, inst_field[31:20]}; //I
+        `IMM_SEL_B: Imm_out = {{19{inst_field[31]}}, inst_field[31], inst_field[7], inst_field[30:25], inst_field[11:8], 1'b0}; //B, always even
+        `IMM_SEL_J: Imm_out = {{11{inst_field[31]}}, inst_field[31], inst_field[19:12], inst_field[20], inst_field[30:21], 1'b0}; // J
+        `IMM_SEL_U: Imm_out = {inst_field[31:12], 12'b0}; // U
     endcase
 end
 

@@ -21,7 +21,7 @@ module Data_path(
     input rst,
     input[31:0]inst_field,
     input ALUSrc_B,
-    input [1:0]MemtoReg,
+    input [1:0] MemtoReg,
     input [1:0] Jump,
     input Branch,
     input RegWrite,
@@ -43,7 +43,8 @@ module Data_path(
     output[31:0]Data_out,
     `RegFile_Regs_Outputs
     output[31:0]PC_out,
-    output[31:0] immediate
+    output[31:0] immediate,
+    output[31:0] TEMPCHECK0
     // 寄存器组值的读出
  ); 
 
@@ -54,6 +55,8 @@ module Data_path(
     wire resB = (Branch & op2) | ((~op2) & BranchN);
     wire [31:0] B4_addr = resB ? (PC_out + Imm_out) : (PC_out + 4);
     wire [31:0] BJ4_addr = Jump[1] ? (Jump[0] ? B4_addr : ALU_out) : (Jump[0] ? (PC_out + Imm_out) : B4_addr);
+
+    assign TEMPCHECK0 = {30'b0, Jump};
 
     reg32 PC(
         .clk(clk),

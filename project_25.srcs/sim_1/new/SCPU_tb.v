@@ -19,6 +19,8 @@ module testbench_tb();
 
     wire [31:0] immediate;
 
+    wire [31:0] TEMPCHECK0;
+
 
     SCPU u0(
         .clk(clk),
@@ -33,6 +35,7 @@ module testbench_tb();
         `RegFile_Regs_Arguments
         .immediate(immediate),
         .PC_out(PC_out)
+        //.TEMPCHECK0(TEMPCHECK0)
         
     );
 
@@ -56,6 +59,6 @@ module testbench_tb();
         rst = 1'b0;
     end
 
-    always #50 clk = ~clk;
+    always #10 clk = ~clk;
 
 endmodule

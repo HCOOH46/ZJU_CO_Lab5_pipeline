@@ -12,7 +12,8 @@ module SCPU(
     output MemRW,
     `RegFile_Regs_Outputs
     output CPU_MIO,
-    output [31:0] immediate
+    output [31:0] immediate,
+    output [31:0] TEMPCHECK0
     // 寄存器组值的读出
     );
 
@@ -54,6 +55,7 @@ module SCPU(
         .Data_out(Data_out),
         `RegFile_Regs_Arguments
         .immediate(immediate),
-        .PC_out(PC_out)
+        .PC_out(PC_out),
+        .TEMPCHECK0(TEMPCHECK0)
     );
 endmodule
