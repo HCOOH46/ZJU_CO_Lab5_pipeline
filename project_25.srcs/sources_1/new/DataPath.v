@@ -55,10 +55,10 @@ module Data_path(
     wire [31:0] B4_addr = resB ? (PC_out + Imm_out) : (PC_out + 4);
     wire [31:0] BJ4_addr = Jump ? (PC_out + Imm_out) : B4_addr;*/
 
-    wire PC4 = PC_out + 4;
-    wire IPP = Imm_out + PC_out;
-    wire PC4_IPP = ((Branch & op2) | ((~op2) & BranchN)) ? IPP : PC4;
-    wire PC4_IPP_ALU = Jump[1] ? (Jump[0] ? PC4_IPP : ALU_out) : (Jump[0] ? IPP : PC4_IPP);
+    wire [31:0] PC4 = PC_out + 4;
+    wire [31:0] IPP = Imm_out + PC_out;
+    wire [31:0] PC4_IPP = ((Branch & op2) | ((~op2) & BranchN)) ? IPP : PC4;
+    wire [31:0] PC4_IPP_ALU = Jump[1] ? (Jump[0] ? PC4_IPP : ALU_out) : (Jump[0] ? IPP : PC4_IPP);
 
     reg32 PC(
         .clk(clk),
