@@ -44,7 +44,7 @@ module testbench_tb();
         .spo(douta)
     );
 
-    ROM_B u2(
+    ROM_BC u2(
         .a(PC_out[11:2]),
         .spo(spo)
     );
