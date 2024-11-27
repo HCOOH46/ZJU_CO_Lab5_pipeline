@@ -97,10 +97,14 @@ always @(*) begin
                     ALU_Control <= `ALU_OP_SLL; // slli
                 end
                 3'b101: begin
-                    ALU_Control <= `ALU_OP_SRL; // srli
-                end
-                3'b101: begin
-                    ALU_Control <= `ALU_OP_SRA; // srai
+                    case(Fun7)
+                        1'b0: begin
+                            ALU_Control <= `ALU_OP_SRL; // srli
+                        end
+                        1'b1: begin
+                            ALU_Control <= `ALU_OP_SRA; // srai
+                        end
+                    endcase
                 end
                 3'b110: begin
                     ALU_Control <= `ALU_OP_OR; // ori
