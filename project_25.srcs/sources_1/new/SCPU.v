@@ -17,6 +17,25 @@ module SCPU(
     // 寄存器组值的读出
     );
 
+    reg ALUSrc_B_ID_EX;
+    reg [3:0] MemtoReg_ID_EX;
+    reg [1:0] Jump_ID_EX;
+    reg Branch_ID_EX;
+    reg BranchN_ID_EX;
+    reg RegWrite_ID_EX;
+    reg MemRW_ID_EX;
+    reg [3:0] ALU_Control_ID_EX;
+
+    reg Branch_EX_MEM;
+    reg BranchN_EX_MEM;
+    reg RegWrite_EX_MEM;
+    reg MemRW_EX_MEM;
+    reg [3:0] ALU_Control_EX_MEM;
+    reg [1:0] Jump_EX_MEM;
+
+    reg [1:0] MemtoReg_MEM_WB;
+    reg RegWrite_MEM_WB;
+
     wire [1:0] Jump;
     wire [2:0] ImmSel;
     wire [1:0] MemtoReg;
