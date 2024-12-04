@@ -3,8 +3,8 @@
 module SCPU(
     input clk,
     input rst,
-    input [31:0] inst_in,
-    input [31:0] Data_in,
+    input [31:0] inst_in, //这个inst是ID, 不是IF
+    input [31:0] Data_in, //这个是ID, 不是IF
     input MIO_ready,
     output [31:0] Addr_out,
     output [31:0] Data_out,
@@ -21,6 +21,9 @@ module SCPU(
     output [31:0] TEMPCHECK0
     // 寄存器组值的读出
     );
+
+    // IF/ID
+    reg [31:0] inst_IF_ID;
 
     // ID/EX
     reg ALUSrc_B_ID_EX;
@@ -53,9 +56,9 @@ module SCPU(
     wire [1:0] MemtoReg;
     wire [3:0] ALU_Control;
     SCPU_ctrl ctrl(
-        .OPcode(inst_in[6:2]),
-        .Fun3(inst_in[14:12]),
-        .Fun7(inst_in[30]),
+        .OPcode(inst_IF_ID[6:2]),
+        .Fun3(inst_IF_ID[14:12]),
+        .Fun7(inst_IF_ID[30]),
         .MIO_ready(MIO_ready),
         .ImmSel(ImmSel),
         .ALUSrc_B(ALUSrc_B),
@@ -71,6 +74,8 @@ module SCPU(
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
+            //IF/ID
+            inst_IF_ID <= 32'b0;
             // ID/EX
             ALUSrc_B_ID_EX <= 1'b0;
             MemtoReg_ID_EX <= 2'b0;
@@ -91,6 +96,8 @@ module SCPU(
             MemtoReg_MEM_WB <= 2'b0;
             RegWrite_MEM_WB <= 1'b0;
         end else begin
+            //IF/ID
+            inst_IF_ID <= inst_in;
             // ID/EX
             ALUSrc_B_ID_EX <= ALUSrc_B;
             MemtoReg_ID_EX <= MemtoReg;
