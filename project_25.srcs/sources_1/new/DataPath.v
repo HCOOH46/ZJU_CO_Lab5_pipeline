@@ -98,10 +98,30 @@ module Data_path(
     assign ALU_out = ALU_res_EX_MEM;
     assign Data_out_WB = MemtoReg[1] ? (MemtoReg[0] ? Imm_out_MEM_WB : PC4_MEM_WB) : (MemtoReg[0] ? Data_in_MEM_WB : ALU_res_MEM_WB);
 
-    always @(negedge clk) begin
+    always @(posedge clk  or posedge rst) begin
         if(rst) begin
             inst_IF_ID <= 32'b0;
             PC_IF_ID <= 32'b0;
+
+            PC_ID_EX <= 32'b0;
+            inst_ID_EX <= 32'b0;
+            Rs1_data_ID_EX <= 32'b0;
+            Rs2_data_ID_EX <= 32'b0;
+            Imm_out_ID_EX <= 32'b0;
+
+            PC4_EX_MEM <= 32'b0;
+            PC_I_EX_MEM <= 32'b0;
+            zero_EX_MEM <= 32'b0;
+            ALU_res_EX_MEM <= 32'b0;
+            inst_EX_MEM <= 32'b0;
+            Rs2_data_EX_MEM <= 32'b0;
+            Imm_out_EX_MEM <= 32'b0;
+
+            PC4_MEM_WB <= 32'b0;
+            Data_in_MEM_WB <= 32'b0;
+            ALU_res_MEM_WB <= 32'b0;
+            inst_MEM_WB <= 32'b0;
+            Imm_out_MEM_WB <= 32'b0;
         end else begin
             inst_IF_ID <= inst;
             PC_IF_ID <= PC_out_IF;

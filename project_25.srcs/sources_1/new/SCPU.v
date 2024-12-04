@@ -69,7 +69,7 @@ module SCPU(
         .CPU_MIO(CPU_MIO)
     );
 
-    always @(negedge clk) begin
+    always @(posedge clk or posedge rst) begin
         if (rst) begin
             // ID/EX
             ALUSrc_B_ID_EX <= 1'b0;
