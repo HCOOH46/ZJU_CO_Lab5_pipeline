@@ -77,11 +77,17 @@ module SCPU(
     wire lock_IF = (inst_IF_ID[6:2] == 5'b11011) 
     || (inst_IF_ID[6:2] == 5'b11000)
     || (inst_ID_EX[6:2] == 5'b11011)
-    || (inst_ID_EX[6:2] == 5'b11000); // jal, B
-    wire lock_IF_ID = ((inst_in[19:15] == inst_IF_ID[11:7]) && (inst_in[19:15] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)) 
-    || ((inst_in[19:15] == inst_ID_EX[11:7]) && (inst_in[19:15] != 5'b0) && (inst_ID_EX[11:7] != 5'b0)) 
-    || ((inst_in[24:20] == inst_IF_ID[11:7]) && (inst_in[24:20] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)) 
-    || ((inst_in[24:20] == inst_ID_EX[11:7]) && (inst_in[24:20] != 5'b0) && (inst_ID_EX[11:7] != 5'b0)); // data hazard
+    || (inst_ID_EX[6:2] == 5'b11000)// jal, B
+    || ((inst_in[6:2] != 5'b11011) && (inst_IF_ID[6:2] != 01000) && (inst_IF_ID[6:2] != 11000) // J | S B
+    && (inst_in[19:15] == inst_IF_ID[11:7]) && (inst_in[19:15] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)) 
+    || ((inst_in[6:2] != 5'b11011) && (inst_IF_ID[6:2] != 01000) && (inst_IF_ID[6:2] != 11000) // J | S B
+    && (inst_in[19:15] == inst_ID_EX[11:7]) && (inst_in[19:15] != 5'b0) && (inst_ID_EX[11:7] != 5'b0)) 
+    || ((inst_in[6:2] != 5'b11011) && (inst_in[6:2] != 5'b00100) && (inst_in[6:2] != 5'b00000) && (inst_IF_ID[6:2] != 01000) && (inst_IF_ID[6:2] != 11000) // J I | S B
+    && (inst_in[24:20] == inst_IF_ID[11:7]) && (inst_in[24:20] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)) 
+    || ((inst_in[6:2] != 5'b11011) && (inst_in[6:2] != 5'b00100) && (inst_in[6:2] != 5'b00000) && (inst_IF_ID[6:2] != 01000) && (inst_IF_ID[6:2] != 11000) // J I | S B
+    && (inst_in[24:20] == inst_ID_EX[11:7]) && (inst_in[24:20] != 5'b0) && (inst_ID_EX[11:7] != 5'b0)); // data hazard
+
+    wire lock_IF_ID = (inst_EX_MEM[6:2] == 5'b11011) || (inst_EX_MEM[6:2] == 5'b11000); // jal, B, not lock PC
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin

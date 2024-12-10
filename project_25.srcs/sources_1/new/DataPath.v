@@ -85,7 +85,10 @@ module Data_path(
     wire [31:0] B4_addr = resB ? PC_I_EX_MEM : (PC_out_IF + 4);
     wire [31:0] BJ4_addr = Jump[1] ? (Jump[0] ? B4_addr : ALU_res_EX_MEM) : (Jump[0] ? (PC_out_IF + Imm_out_EX_MEM) : B4_addr);
 
-    // assign TEMPCHECK0 = {30'b0, Jump};
+    assign TEMPCHECK0 = {7'b0, ((inst[19:15] == inst_IF_ID[11:7]) && (inst[19:15] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)),
+    7'b0, ((inst[19:15] == inst_ID_EX[11:7]) && (inst[19:15] != 5'b0) && (inst_ID_EX[11:7] != 5'b0)),
+    7'b0, ((inst[24:20] == inst_IF_ID[11:7]) && (inst[24:20] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)),
+    7'b0, ((inst[24:20] == inst_ID_EX[11:7]) && (inst[24:20] != 5'b0) && (inst_ID_EX[11:7] != 5'b0))};
     assign PC_out_EX = PC_ID_EX;
     assign PC_out_ID = PC_IF_ID;
     assign inst_ID = inst_IF_ID;
@@ -94,13 +97,13 @@ module Data_path(
         .clk(clk),
         .rst(rst),
         .data_in(BJ4_addr),
-        .lock(lock_IF || lock_IF_ID),
+        .lock(lock_IF),
         .data_out(PC_out_IF)
     );
 
     wire [31:0] Rs1_data;
     wire [31:0] Rs2_data;
-    assign TEMPCHECK0 = Rs1_data;
+    // assign TEMPCHECK0 = BJ4_addr;
     assign Data_out = Rs2_data_EX_MEM;
     wire [31:0] ALU_res;
     assign ALU_out = ALU_res_EX_MEM;

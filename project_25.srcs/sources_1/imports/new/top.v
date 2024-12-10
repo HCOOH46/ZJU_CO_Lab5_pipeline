@@ -107,13 +107,13 @@ module top(
         .rst(rst),
         .Data_in(Cpu_data4bus),
         .inst_in(inst),
-        .MemRW(MemRW),
+        .MemRW_Mem(MemRW),
         .Addr_out(Addr_out),
         .Data_out(Cpu_data2bus),
-        .PC_out(PC_out)
+        .PC_out_IF(PC_out)
     );
 
-    ROM_BC U2(
+    ROM_HH U2(
         .a(PC_out[11:2]),
         .spo(inst)
     );
