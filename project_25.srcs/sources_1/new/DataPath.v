@@ -4,6 +4,7 @@ module reg32( // PC寄存器
     input clk,
     input rst,
     input [31:0] data_in,
+    input lock,
     output reg [31:0] data_out
     );
     
@@ -11,7 +12,10 @@ module reg32( // PC寄存器
         if (rst) begin
             data_out <= 32'b0;
         end else begin
-            data_out <= data_in;
+            if (!lock)
+                data_out <= data_in;
+            else
+                data_out <= data_out;
         end
     end
 endmodule
@@ -38,6 +42,8 @@ module Data_path(
 //存储器输入
     input[3:0]ALU_Control, //ALU操作控制
     input[2:0]ImmSel,
+    input lock_IF,
+    input lock_IF_ID,
     //ImmGen操作控制
     output[31:0] ALU_out,
     output[31:0] Data_out,
@@ -79,7 +85,7 @@ module Data_path(
     wire [31:0] B4_addr = resB ? PC_I_EX_MEM : (PC_out_IF + 4);
     wire [31:0] BJ4_addr = Jump[1] ? (Jump[0] ? B4_addr : ALU_res_EX_MEM) : (Jump[0] ? (PC_out_IF + Imm_out_EX_MEM) : B4_addr);
 
-    assign TEMPCHECK0 = {30'b0, Jump};
+    // assign TEMPCHECK0 = {30'b0, Jump};
     assign PC_out_EX = PC_ID_EX;
     assign PC_out_ID = PC_IF_ID;
     assign inst_ID = inst_IF_ID;
@@ -88,11 +94,13 @@ module Data_path(
         .clk(clk),
         .rst(rst),
         .data_in(BJ4_addr),
+        .lock(lock_IF || lock_IF_ID),
         .data_out(PC_out_IF)
     );
 
     wire [31:0] Rs1_data;
     wire [31:0] Rs2_data;
+    assign TEMPCHECK0 = Rs1_data;
     assign Data_out = Rs2_data_EX_MEM;
     wire [31:0] ALU_res;
     assign ALU_out = ALU_res_EX_MEM;
@@ -123,13 +131,22 @@ module Data_path(
             inst_MEM_WB <= 32'b0;
             Imm_out_MEM_WB <= 32'b0;
         end else begin
-            inst_IF_ID <= inst;
+            if(!(lock_IF || lock_IF_ID))
+                inst_IF_ID <= inst;
+            else
+                inst_IF_ID <= 32'h00000033; // nop
             PC_IF_ID <= PC_out_IF;
 
             PC_ID_EX <= PC_IF_ID;
             inst_ID_EX <= inst_IF_ID;
-            Rs1_data_ID_EX <= Rs1_data;
-            Rs2_data_ID_EX <= Rs2_data;
+            if((inst_IF_ID[19:15] == inst_MEM_WB[11:7]) && (inst_MEM_WB[11:7] != 5'b0)) // data hazard, WB and next ID are dealt with in the same cycle
+                Rs1_data_ID_EX <= Data_out_WB; // directly use the data from MEM_WB that will be written to the regfile instantly
+            else
+                Rs1_data_ID_EX <= Rs1_data;
+            if((inst_IF_ID[24:20] == inst_MEM_WB[11:7]) && (inst_MEM_WB[11:7] != 5'b0)) // data hazard
+                Rs2_data_ID_EX <= Data_out_WB;
+            else
+                Rs2_data_ID_EX <= Rs2_data;
             Imm_out_ID_EX <= Imm_out;
 
             PC4_EX_MEM <= PC_ID_EX + 4;

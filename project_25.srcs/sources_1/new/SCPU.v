@@ -26,6 +26,7 @@ module SCPU(
     reg [31:0] inst_IF_ID;
 
     // ID/EX
+    reg [31:0] inst_ID_EX;
     reg ALUSrc_B_ID_EX;
     reg [1:0] MemtoReg_ID_EX;
     reg [1:0] Jump_ID_EX;
@@ -36,6 +37,7 @@ module SCPU(
     reg [3:0] ALU_Control_ID_EX;
 
     // EX/MEM
+    reg [31:0] inst_EX_MEM;
     reg Branch_EX_MEM;
     reg BranchN_EX_MEM;
     reg RegWrite_EX_MEM;
@@ -72,11 +74,21 @@ module SCPU(
         .CPU_MIO(CPU_MIO)
     );
 
+    wire lock_IF = (inst_IF_ID[6:2] == 5'b11011) 
+    || (inst_IF_ID[6:2] == 5'b11000)
+    || (inst_ID_EX[6:2] == 5'b11011)
+    || (inst_ID_EX[6:2] == 5'b11000); // jal, B
+    wire lock_IF_ID = ((inst_in[19:15] == inst_IF_ID[11:7]) && (inst_in[19:15] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)) 
+    || ((inst_in[19:15] == inst_ID_EX[11:7]) && (inst_in[19:15] != 5'b0) && (inst_ID_EX[11:7] != 5'b0)) 
+    || ((inst_in[24:20] == inst_IF_ID[11:7]) && (inst_in[24:20] != 5'b0) && (inst_IF_ID[11:7] != 5'b0)) 
+    || ((inst_in[24:20] == inst_ID_EX[11:7]) && (inst_in[24:20] != 5'b0) && (inst_ID_EX[11:7] != 5'b0)); // data hazard
+
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             //IF/ID
             inst_IF_ID <= 32'b0;
             // ID/EX
+            inst_ID_EX <= 32'b0;
             ALUSrc_B_ID_EX <= 1'b0;
             MemtoReg_ID_EX <= 2'b0;
             Jump_ID_EX <= 2'b00;
@@ -86,6 +98,7 @@ module SCPU(
             MemRW_ID_EX <= 1'b0;
             ALU_Control_ID_EX <= 4'b0;
             // EX/MEM
+            inst_EX_MEM <= 32'b0;
             Branch_EX_MEM <= 1'b0;
             BranchN_EX_MEM <= 1'b0;
             RegWrite_EX_MEM <= 1'b0;
@@ -97,8 +110,9 @@ module SCPU(
             RegWrite_MEM_WB <= 1'b0;
         end else begin
             //IF/ID
-            inst_IF_ID <= inst_in;
+            inst_IF_ID <= (lock_IF || lock_IF_ID) ? 32'h00000033 : inst_in; // nop
             // ID/EX
+            inst_ID_EX <= inst_IF_ID;
             ALUSrc_B_ID_EX <= ALUSrc_B;
             MemtoReg_ID_EX <= MemtoReg;
             Jump_ID_EX <= Jump;
@@ -108,6 +122,7 @@ module SCPU(
             MemRW_ID_EX <= MemRW_0;
             ALU_Control_ID_EX <= ALU_Control;
             // EX/MEM
+            inst_EX_MEM <= inst_ID_EX;
             Branch_EX_MEM <= Branch_ID_EX;
             BranchN_EX_MEM <= BranchN_ID_EX;
             RegWrite_EX_MEM <= RegWrite_ID_EX;
@@ -123,6 +138,8 @@ module SCPU(
     Data_path dp(
         .clk(clk),
         .rst(rst),
+        .lock_IF(lock_IF),
+        .lock_IF_ID(lock_IF_ID),
         .inst(inst_in[31:0]), //这里实际上只需要 inst_in[31:7]，但是为了保持一致性，还是传入了整个 inst_in,
         .ALUSrc_B(ALUSrc_B_ID_EX),
         .MemtoReg(MemtoReg_MEM_WB),

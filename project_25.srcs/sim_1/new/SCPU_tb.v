@@ -52,7 +52,7 @@ module testbench_tb();
         .spo(douta)
     );
 
-    ROM_H u2(
+    ROM_HH u2(
         .a(PC_out_IF[11:2]),
         .spo(spo)
     );
