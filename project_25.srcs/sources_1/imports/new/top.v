@@ -98,19 +98,29 @@ module top(
 
     wire [31:0] Cpu_data4bus;
     wire [31:0] PC_out;
+    wire [31:0] PC_out_ID;
+    wire [31:0] PC_out_EX;
+    wire [31:0] Data_out_WB;
     wire [31:0] inst;
     wire [31:0] Cpu_data2bus;
     wire [31:0] Addr_out;
-    wire MemRW;
+    wire [31:0] inst_ID;
+    wire MemRW_Mem;
+    wire MemRW_EX;
     SCPU U1(
         .clk(Clk_CPU),
         .rst(rst),
         .Data_in(Cpu_data4bus),
         .inst_in(inst),
-        .MemRW_Mem(MemRW),
+        .MemRW_Mem(MemRW_Mem),
+        .MemRW_EX(MemRW_EX),
         .Addr_out(Addr_out),
         .Data_out(Cpu_data2bus),
-        .PC_out_IF(PC_out)
+        .PC_out_IF(PC_out),
+        .PC_out_ID(PC_out_ID),
+        .PC_out_EX(PC_out_EX),
+        .Data_out_WB(Data_out_WB),
+        .inst_ID(inst_ID)
     );
 
     ROM_HH U2(
@@ -126,7 +136,7 @@ module top(
         .rst(rst),
         .BTN(btn_ok),
         .SW(sw_ok),
-        .mem_w(MemRW),
+        .mem_w(MemRW_Mem),
         .Cpu_data2bus(Cpu_data2bus),
         .addr_bus(Addr_out),
         .ram_data_out(ram_out),
@@ -191,13 +201,16 @@ module top(
         .clk_25m(clk_div[1]),
         .clk_100m(clk_100mhz),
         .rst(rst),
-        .pc(PC_out),
-        .inst(inst),
-        .alu_res(Addr_out),
-        .mem_wen(MemRW),
-        .dmem_o_data(ram_out),
-        .dmem_i_data(ram_data_in),
-        .dmem_addr(Addr_out),
+        .PC_IF(PC_out),
+        .inst_IF(inst),
+        .PC_ID(PC_out_ID),
+        .inst_ID(inst_ID),
+        .PC_Ex(PC_out_EX),
+        .MemRW_Ex(MemRW_EX),
+        .MemRW_Mem(MemRW_Mem),
+        .Data_out(Cpu_data2bus),
+        .Addr_out(Addr_out),
+        .Data_out_WB(Data_out_WB),
         .hs(HSYNC), // horizontal
         .vs(VSYNC), // vertical
         .vga_r(Red),

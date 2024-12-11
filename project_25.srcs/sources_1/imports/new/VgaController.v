@@ -1,25 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/02/29 13:35:01
-// Design Name: 
-// Module Name: VgaController
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
 module VgaController(
     input wire clk,
     input wire rst,
@@ -61,8 +39,8 @@ module VgaController(
 
     localparam HS_1 = 96;
     localparam VS_1 = 2;
-    localparam HS_2 = 147;
-    localparam VS_2 = 35;
+    localparam HS_2 = 157;
+    localparam VS_2 = 57;
     localparam WIDTH = 640;
     localparam HEIGHT = 480;
 
@@ -88,3 +66,4 @@ module VgaController(
     end
 
 endmodule
+

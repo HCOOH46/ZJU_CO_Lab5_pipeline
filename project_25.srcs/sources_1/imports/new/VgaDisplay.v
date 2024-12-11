@@ -1,25 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/02/29 13:40:50
-// Design Name: 
-// Module Name: VgaDisplay
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
 module VgaDisplay(
     input wire clk,
     input wire video_on,
@@ -56,4 +34,3 @@ module VgaDisplay(
     end
     
 endmodule
-
